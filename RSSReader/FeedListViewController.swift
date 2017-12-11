@@ -6,15 +6,29 @@
 //  Copyright © 2017 plieblang. All rights reserved.
 //
 
+/*
+ need to get the list of feeds from userdefaults
+ */
+
 import UIKit
 
 class FeedListViewController: UIViewController {
     
-    var feeds: [String] = UserDefaults().array(forKey: "petersrssreader") as! [String]
+    var feeds: [[String: String]] = []
+    var feedsAsNSData = UserDefaults().array(forKey: "petersrssreader")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //let feedsPreppedForJSON = FeedsEncoder(feeds: feedsAsNSData as! [[String : String]])
+        let feedsAsJSON = try! JSONSerialization.jsonObject(with: self.feedsAsNSData, options: [])//JSONSerialization.data(withJSONObject: feedsPreppedForJSON, options: []) as NSData
+        feeds = feedsAsJSON.feeds
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let destination = segue.destination as? ArticleListViewController else { return }
+        guard let source = sender as? FeedCell else { return }
+        destination.feedName = source.name
     }
     
 }
@@ -32,7 +46,9 @@ extension FeedListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let feed = feeds[indexPath.item]
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
-        cell.feedName.text = feed
+        for (key, value) in feed{
+            cell.feedNameLabel.text = key
+        }
         return cell
     }
     

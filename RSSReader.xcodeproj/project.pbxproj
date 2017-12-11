@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		244467C61FDDC1F400A682DD /* FeedsEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244467C51FDDC1F400A682DD /* FeedsEncoder.swift */; };
 		244F71411FD39177002D0BA8 /* FeedSubscriberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244F71401FD39177002D0BA8 /* FeedSubscriberViewController.swift */; };
 		24930E741FCFB173002163C5 /* FeedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24930E731FCFB173002163C5 /* FeedListViewController.swift */; };
 		24930E761FCFB7D7002163C5 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24930E751FCFB7D7002163C5 /* FeedCell.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		244467C51FDDC1F400A682DD /* FeedsEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsEncoder.swift; sourceTree = "<group>"; };
 		244F71401FD39177002D0BA8 /* FeedSubscriberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSubscriberViewController.swift; sourceTree = "<group>"; };
 		24930E731FCFB173002163C5 /* FeedListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedListViewController.swift; sourceTree = "<group>"; };
 		24930E751FCFB7D7002163C5 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				24930E751FCFB7D7002163C5 /* FeedCell.swift */,
 				24930E731FCFB173002163C5 /* FeedListViewController.swift */,
 				24B174CC1FA7E30000C7EB37 /* FeedParser.swift */,
+				244467C51FDDC1F400A682DD /* FeedsEncoder.swift */,
 				244F71401FD39177002D0BA8 /* FeedSubscriberViewController.swift */,
 				24B174A51FA7E1F000C7EB37 /* Assets.xcassets */,
 				24B174A71FA7E1F000C7EB37 /* LaunchScreen.storyboard */,
@@ -281,6 +284,7 @@
 				24930E7A1FCFCFD3002163C5 /* ArticleCell.swift in Sources */,
 				24930E761FCFB7D7002163C5 /* FeedCell.swift in Sources */,
 				24B1749F1FA7E1F000C7EB37 /* AppDelegate.swift in Sources */,
+				244467C61FDDC1F400A682DD /* FeedsEncoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

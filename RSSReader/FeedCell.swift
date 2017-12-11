@@ -16,13 +16,13 @@ import SafariServices
 
 class FeedCell: UITableViewCell{
     
-    @IBOutlet weak var feedName: UILabel!
+    @IBOutlet weak var feedNameLabel: UILabel!
     
-    var url: URL!
+    var name: String = ""
     var parentViewController: UIViewController!
     
-    func configure(url: URL, parentViewController: UIViewController) {
-        self.url = url
+    func configure(name: String, parentViewController: UIViewController) {
+        self.name = name
         self.parentViewController = parentViewController
     }
     
