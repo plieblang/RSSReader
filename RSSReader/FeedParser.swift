@@ -16,11 +16,10 @@ class FeedParser: NSObject, XMLParserDelegate {
     //This will probably be what we display to the user
     var articleTitle: String = ""
     var articleURL: String = ""//should it be a URL or string?
-    //Dictionary which maps headline to URL
     //Represents a single article, which has those two attributes
-    var singleArticle: [String: String] = [:]
+    var singleArticle: Article = Article()
     //Holds all the article dictionaries
-    var articleArray: [[String: String]] = []
+    var articleArray: [Article] = []
     //flag to check whether we’re parsing an actual feed item or its header (which also has a title, description, and so on)
     var isHeader = true
     //Holds feed title to use as cache name
@@ -84,14 +83,14 @@ class FeedParser: NSObject, XMLParserDelegate {
             feedTitle = string
             cache.name = feedTitle
             
-            //Check if we've already subscribed, and if not add to the list in UserDefaults
-            if let fArr = UserDefaults.standard.array(forKey: "petersrssreader"){
-                var feedsArray = fArr
-                feedsArray.append([feedTitle: feedURL])
-                let feedsPreppedForJSON = FeedsEncoder(feeds: feedsArray as! [[String : String]])
-                let feedsAsJSON = try! JSONSerialization.data(withJSONObject: feedsPreppedForJSON, options: []) as NSData
-                let feedsAsNSData = NSData.init(data: feedsAsJSON as Data)
-                UserDefaults.standard.set(feedsAsNSData, forKey: feedTitle)
+            if let fDict = UserDefaults.standard.dictionary(forKey: "petersrssreader"){
+                var feedDict = fDict as NSDictionary
+                feedDict.setValue(feedTitle, forKey: feedURL)
+                //feedsArray.append([feedTitle: feedURL])
+                //let feedsPreppedForJSON = FeedsEncoder(feeds: feedsArray as! [[String : String]])
+                //let feedsAsJSON = try! JSONSerialization.data(withJSONObject: feedsPreppedForJSON, options: []) as NSData
+                //let feedsAsNSData = NSData.init(data: feedsAsJSON as Data)
+                UserDefaults.standard.set(feedDict, forKey: "petersrssreader")
             }
         } else {
             
@@ -108,9 +107,10 @@ class FeedParser: NSObject, XMLParserDelegate {
             
             if currentTag == "title"{
                 feedTitle = string
+                singleArticle.title = feedTitle
             } else if currentTag == "link"{
-                //Add the current headline to the list of headlines for that feed
-                singleArticle[feedTitle] = string
+                feedURL = string
+                singleArticle.url = feedURL
                 articleArray.append(singleArticle)
                 cache.setObject(articleArray as AnyObject, forKey: feedTitle as AnyObject)
             }
@@ -119,17 +119,17 @@ class FeedParser: NSObject, XMLParserDelegate {
         
     }
     
-    // look at closing tag
-    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        
-        if !articleTitle.isEmpty {
-            
-            articleTitle = articleTitle.trimmingCharacters(in: .whitespacesAndNewlines)
-            singleArticle[currentTag] = articleTitle
-            articleTitle = ""
-            
-        }
-        
-    }
+//    // look at closing tag
+//    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+//
+//        if !articleTitle.isEmpty {
+//
+//            articleTitle = articleTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+//            singleArticle[currentTag] = articleTitle
+//            articleTitle = ""
+//
+//        }
+//
+//    }
     
 }

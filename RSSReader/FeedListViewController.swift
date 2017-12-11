@@ -14,15 +14,12 @@ import UIKit
 
 class FeedListViewController: UIViewController {
     
-    var feeds: [[String: String]] = []
-    var feedsAsNSData = UserDefaults().array(forKey: "petersrssreader")
+    var feeds: NSDictionary = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //let feedsPreppedForJSON = FeedsEncoder(feeds: feedsAsNSData as! [[String : String]])
-        let feedsAsJSON = try! JSONSerialization.jsonObject(with: self.feedsAsNSData, options: [])//JSONSerialization.data(withJSONObject: feedsPreppedForJSON, options: []) as NSData
-        feeds = feedsAsJSON.feeds
+        UserDefaults.standard.set(NSDictionary(), forKey: "petersrssreader")
+        feeds = UserDefaults().dictionary(forKey: "petersrssreader")! as NSDictionary
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -44,11 +41,17 @@ extension FeedListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let feed = feeds[indexPath.item]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
-        for (key, value) in feed{
-            cell.feedNameLabel.text = key
+        //TODO shouldn't be indexPath.item
+        //flatten dictionary into list, get indexPath.item from list and get that from dictionary
+        var feedsList: [String] = []
+        for (key, value) in feeds{
+            feedsList.append(key as! String)
+            
         }
+        //Used as the key to get the url from feeds
+        let feedName = feeds[feedsList[indexPath.item]]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
+        cell.feedNameLabel.text = feedName as? String
         return cell
     }
     

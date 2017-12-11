@@ -14,17 +14,19 @@ import UIKit
 
 class FeedSubscriberViewController: UIViewController{
     
-    @IBOutlet weak var feedEntryField: UITextField!
+    @IBOutlet weak var feedNameField: UITextField!
+    
+    @IBOutlet weak var feedURLField: UITextField!
     
     @IBAction func subscribe(_ sender: Any) {
         
         //Check if we've already subscribed to a feed
-        if let fl = UserDefaults.standard.array(forKey: "petersrssreader"){
-            var feedList = fl as NSArray
-            feedList.adding(feedEntryField.text!)
+        if let fDict = UserDefaults.standard.dictionary(forKey: "petersrssreader"){
+            var feedDict = fDict as NSDictionary
+            feedDict.setValue("", forKey: feedURLField.text!)
         } else{
-            var feedList: NSArray = []
-            feedList.adding(feedEntryField.text!)
+            var feedList: NSDictionary = NSDictionary()
+            feedList.setValue("", forKey: feedURLField.text!)
             UserDefaults().set(feedList, forKey: "petersrssreader")
         }
         
