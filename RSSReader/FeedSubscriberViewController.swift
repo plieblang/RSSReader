@@ -23,11 +23,20 @@ class FeedSubscriberViewController: UIViewController{
         //Check if we've already subscribed to a feed
         if let fDict = UserDefaults.standard.dictionary(forKey: "petersrssreader"){
             var feedDict = fDict as NSDictionary
-            feedDict.setValue("", forKey: feedURLField.text!)
+            let fp = FeedParser()
+            fp.parseRssURL(rssURL: URL(string: feedURLField.text!)!){ (done)  in
+                feedDict.setValue("", forKey: feedURLField.text!)
+                UserDefaults().set(feedDict, forKey: "petersrssreader")
+            }
+            
         } else{
-            var feedList: NSDictionary = NSDictionary()
-            feedList.setValue("", forKey: feedURLField.text!)
-            UserDefaults().set(feedList, forKey: "petersrssreader")
+            var feedDict: NSDictionary = NSDictionary()
+            let fp = FeedParser()
+            fp.parseRssURL(rssURL: URL(string: feedURLField.text!)!){ (done)  in
+                feedDict.setValue("", forKey: feedURLField.text!)
+                UserDefaults().set(feedDict, forKey: "petersrssreader")
+            }
+            
         }
         
     }

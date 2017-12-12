@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hLa-wt-VyH">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -20,8 +20,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="1TU-9C-sJJ" kind="relationship" relationship="viewControllers" id="GEc-Ai-dO1"/>
-                        <segue destination="inN-lr-nwA" kind="relationship" relationship="viewControllers" id="tQ0-fj-YUN"/>
+                        <segue destination="1TU-9C-sJJ" kind="relationship" relationship="viewControllers" id="bWY-7N-1IJ"/>
+                        <segue destination="inN-lr-nwA" kind="relationship" relationship="viewControllers" id="Zba-Ir-kih"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mha-6K-E86" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -36,12 +36,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Feed Name (Optional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bcb-wa-IE1">
-                                <rect key="frame" x="16" y="121" width="343" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qpP-xJ-kPF">
                                 <rect key="frame" x="140" y="318" width="94" height="30"/>
                                 <state key="normal" title="Subscribe"/>
@@ -49,9 +43,14 @@
                                     <action selector="subscribe:" destination="inN-lr-nwA" eventType="touchUpInside" id="oW7-cF-Fp9"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Feed URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XA9-ql-RZG">
-                                <rect key="frame" x="16" y="190" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Feed URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XA9-ql-RZG">
+                                <rect key="frame" x="16" y="170" width="345" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Feed Name (Optional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bcb-wa-IE1">
+                                <rect key="frame" x="16" y="95" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -59,10 +58,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="qpP-xJ-kPF" firstAttribute="centerX" secondItem="1Kj-Q4-lem" secondAttribute="centerX" id="0Ms-ZC-Rn0"/>
-                            <constraint firstItem="bcb-wa-IE1" firstAttribute="top" secondItem="1Kj-Q4-lem" secondAttribute="top" constant="100" id="mLx-Er-GgS"/>
-                            <constraint firstItem="qpP-xJ-kPF" firstAttribute="centerY" secondItem="1Kj-Q4-lem" secondAttribute="centerY" id="qoA-Aq-zYy"/>
-                            <constraint firstItem="bcb-wa-IE1" firstAttribute="centerY" secondItem="1Kj-Q4-lem" secondAttribute="centerY" id="tQs-of-sX4"/>
+                            <constraint firstItem="qpP-xJ-kPF" firstAttribute="centerY" secondItem="1Kj-Q4-lem" secondAttribute="centerY" id="F7G-Lg-FlV"/>
+                            <constraint firstItem="XA9-ql-RZG" firstAttribute="top" secondItem="1Kj-Q4-lem" secondAttribute="top" constant="150" id="QtY-tO-GeP"/>
+                            <constraint firstItem="bcb-wa-IE1" firstAttribute="top" secondItem="1Kj-Q4-lem" secondAttribute="top" constant="75" id="eU2-bw-cSi"/>
+                            <constraint firstItem="qpP-xJ-kPF" firstAttribute="centerX" secondItem="1Kj-Q4-lem" secondAttribute="centerX" id="qXP-Wn-Gxo"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1Kj-Q4-lem"/>
                     </view>
@@ -188,7 +187,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AIO-CF-KFa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="73" y="619"/>
+            <point key="canvasLocation" x="73" y="507"/>
         </scene>
     </scenes>
 </document>

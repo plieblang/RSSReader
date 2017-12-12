@@ -21,115 +21,89 @@ class FeedParser: NSObject, XMLParserDelegate {
     //Holds all the article dictionaries
     var articleArray: [Article] = []
     //flag to check whether we’re parsing an actual feed item or its header (which also has a title, description, and so on)
-    var isHeader = true
+    var headerFlag = true
     //Holds feed title to use as cache name
     var feedTitle: String = ""
     var feedURL: String = ""
+    //Holds the articles for each feed
+    var cache = NSCache<AnyObject, AnyObject>()
     
     // MARK: XMLParser delegate methods
     func parseRssURL(rssURL: URL, with completion: (Bool)->()) {
         
         let parser = XMLParser(contentsOf: rssURL)
         parser?.delegate = self
-        if let flag = parser?.parse() {
-            // handle last item in feed
-            articleArray.append(singleArticle)
-            completion(flag)
-        }
-        
+        parser?.parse()
+
     }
     
     // look at opening tag
-    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes: [String : String] = [:]) {
         
         currentTag = elementName
         
-        // news items start at <item> tag, we're not interested in header
-        if currentTag == "item" || currentTag == "entry" {
+        //Need to know whether the link/title tags belong to the feed as a whole or an article
+        if currentTag == "item"{
             
-            // at this point we're working with n+1 entry
-            if isHeader == false {
-                articleArray.append(singleArticle)
-            }
-            
-            isHeader = false
+            headerFlag = false
             
         }
         
-        /*
-         if isHeader == false {
-         
-         // handle article thumbnails
-         if currentTag == "media:thumbnail" || currentTag == "media:content" {
-         tagContent += attributeDict["url"]!
-         }
-         
-         }
-         */
     }
     
     // keep relevant tag content
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         
-        //Holds the articles for each feed
-        var cache = NSCache<AnyObject, AnyObject>()
         //How many articles each feed will keep at a time
         let cacheLimit = 50
-        //need to set cache.name to the feed url (ie example.com/rss.xml)
         cache.countLimit = cacheLimit
         
+        var flag: Bool = false
+        
         //Set the cache name to be the feed's url
-        if isHeader == true && currentTag == "link"{
-            feedTitle = string
-            cache.name = feedTitle
+        if headerFlag == true{
+            if currentTag == "title"{
+                feedTitle = string
+                flag = true
+            } else if currentTag == "link"{
+                feedURL = string
+                cache.name = feedURL
+                flag = true
+            }
             
-            if let fDict = UserDefaults.standard.dictionary(forKey: "petersrssreader"){
-                var feedDict = fDict as NSDictionary
-                feedDict.setValue(feedTitle, forKey: feedURL)
-                //feedsArray.append([feedTitle: feedURL])
-                //let feedsPreppedForJSON = FeedsEncoder(feeds: feedsArray as! [[String : String]])
-                //let feedsAsJSON = try! JSONSerialization.data(withJSONObject: feedsPreppedForJSON, options: []) as NSData
-                //let feedsAsNSData = NSData.init(data: feedsAsJSON as Data)
-                UserDefaults.standard.set(feedDict, forKey: "petersrssreader")
+            //rename the existing dictionary entry
+            if flag{
+                if let fDict = UserDefaults.standard.dictionary(forKey: "petersrssreader"){
+                    var feedDict = fDict as! [String: String]
+                    feedDict[feedURL] = feedTitle
+                    UserDefaults.standard.set(feedDict, forKey: "petersrssreader")
+                }
             }
         } else {
             
-            //            if currentTag == "title" || currentTag == "link" || currentTag == "description" || currentTag == "content" || currentTag == "pubDate" || currentTag == "author" || currentTag == "dc:creator" || currentTag == "content:encoded" {
-            //
-            //                TODO: handle description inline HTML
-            //                let additionalImages = foundCharacters.extractMatches(for: "img")
-            //                if additionalImages.count > 0 {
-            //                    let string = additionalImages[0] as NSString
-            //                    currentData["inline_image"] = string.substring(with: NSRange(location: 10, length: string.length - 24))
-            //                }
-            //                foundCharacters = foundCharacters.deleteHTML(tags: ["a", "p", "div", "img"])
-            //            }
-            
             if currentTag == "title"{
-                feedTitle = string
-                singleArticle.title = feedTitle
+                articleTitle += string.trimmingCharacters(in: .newlines).replacingOccurrences(of: "\t", with: "")
+                singleArticle.title = articleTitle
             } else if currentTag == "link"{
-                feedURL = string
-                singleArticle.url = feedURL
-                articleArray.append(singleArticle)
-                cache.setObject(articleArray as AnyObject, forKey: feedTitle as AnyObject)
+                //link always comes after title, so we can add the article now
+                articleURL += string.trimmingCharacters(in: .whitespacesAndNewlines)
+                singleArticle.url = articleURL
+                
             }
             
         }
         
     }
     
-//    // look at closing tag
-//    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-//
-//        if !articleTitle.isEmpty {
-//
-//            articleTitle = articleTitle.trimmingCharacters(in: .whitespacesAndNewlines)
-//            singleArticle[currentTag] = articleTitle
-//            articleTitle = ""
-//
-//        }
-//
-//    }
+    //Add the article when we hit the closing item tag
+    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        
+        if elementName == "item"{
+            articleArray.append(singleArticle)
+        } else if elementName == "rss"{
+            cache.setObject(articleArray as AnyObject, forKey: feedTitle as AnyObject)
+        }
+        
+    }
     
 }
