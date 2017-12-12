@@ -22,6 +22,11 @@ class FeedListViewController: UIViewController {
         feeds = UserDefaults().dictionary(forKey: "petersrssreader")! as NSDictionary
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        feeds = UserDefaults().dictionary(forKey: "petersrssreader")! as NSDictionary
+        
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let destination = segue.destination as? ArticleListViewController else { return }
         guard let source = sender as? FeedCell else { return }
@@ -41,13 +46,14 @@ extension FeedListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //TODO shouldn't be indexPath.item
         //flatten dictionary into list, get indexPath.item from list and get that from dictionary
         var feedsList: [String] = []
+        //there's gotta be a better way of doing this
         for (key, value) in feeds{
             feedsList.append(key as! String)
             
         }
+        
         //Used as the key to get the url from feeds
         let feedName = feeds[feedsList[indexPath.item]]
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell

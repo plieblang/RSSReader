@@ -18,8 +18,8 @@ class FeedParser: NSObject, XMLParserDelegate {
     var articleURL: String = ""//should it be a URL or string?
     //Represents a single article, which has those two attributes
     var singleArticle: Article = Article()
-    //Holds all the article dictionaries
-    var articleArray: [Article] = []
+//    //Holds all the article dictionaries
+//    var articleArray: [Article] = []
     //flag to check whether we’re parsing an actual feed item or its header (which also has a title, description, and so on)
     var headerFlag = true
     //Holds feed title to use as cache name
@@ -27,17 +27,32 @@ class FeedParser: NSObject, XMLParserDelegate {
     var feedURL: String = ""
     //Holds the articles for each feed
     var cache = NSCache<AnyObject, AnyObject>()
+    var wholeStringParsed: Bool = false
     
-    // MARK: XMLParser delegate methods
-    func parseRssURL(rssURL: URL, with completion: (Bool)->()) {
+    //Returns the cache of articles
+    func parseRssURL(rssURL: URL, completion: (NSCache<AnyObject, AnyObject>) -> ()) {
         
         let parser = XMLParser(contentsOf: rssURL)
         parser?.delegate = self
-        parser?.parse()
-
+        if parser?.parse() == true{
+            completion(cache)
+        }
+        
     }
     
-    // look at opening tag
+    //Returns a two-slot list of strings where [0] is the url and [1] is the title
+    func getRssProperties(rssURL: URL, completion: ([String]) -> ()){
+        
+        //This is inefficient because it parses the whole feed just to get its title and url
+        let parser = XMLParser(contentsOf: rssURL)
+        parser?.delegate = self
+        if parser?.parse() == true{
+            completion([feedURL, feedTitle])
+        }
+        
+    }
+    
+    //Check the opening tag to see whether we're inside the header
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes: [String : String] = [:]) {
         
         currentTag = elementName
@@ -82,12 +97,22 @@ class FeedParser: NSObject, XMLParserDelegate {
         } else {
             
             if currentTag == "title"{
-                articleTitle += string.trimmingCharacters(in: .newlines).replacingOccurrences(of: "\t", with: "")
-                singleArticle.title = articleTitle
+                if wholeStringParsed{
+                    singleArticle.title = articleTitle
+                    articleTitle = string.trimmingCharacters(in: .newlines).replacingOccurrences(of: "\t", with: "")
+                } else{
+                    articleTitle += string.trimmingCharacters(in: .newlines).replacingOccurrences(of: "\t", with: "")
+                }
+                
+                
             } else if currentTag == "link"{
-                //link always comes after title, so we can add the article now
-                articleURL += string.trimmingCharacters(in: .whitespacesAndNewlines)
-                singleArticle.url = articleURL
+                if wholeStringParsed{
+                    singleArticle.url = articleURL
+                    //link always comes after title, so we can add the article now
+                    articleURL = string.trimmingCharacters(in: .whitespacesAndNewlines)
+                } else{
+                    articleURL += string.trimmingCharacters(in: .whitespacesAndNewlines)
+                }
                 
             }
             
@@ -99,9 +124,13 @@ class FeedParser: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         
         if elementName == "item"{
-            articleArray.append(singleArticle)
-        } else if elementName == "rss"{
-            cache.setObject(articleArray as AnyObject, forKey: feedTitle as AnyObject)
+            //TODO check for duplicate items and merge the two caches
+            if var feedCache = cache.object(forKey: feedURL as AnyObject){
+                if feedCache.object(forKey: articleURL as AnyObject) != nil{
+                    feedCache.set(articleTitle, forKey: articleURL)
+                }
+            }
+            wholeStringParsed = true
         }
         
     }
