@@ -89,18 +89,29 @@
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Feed" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b6A-a7-ugA">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Feed" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b6A-a7-ugA">
                                                     <rect key="frame" x="0.0" y="11" width="343" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8GW-K1-fD0">
+                                                    <rect key="frame" x="5" y="6" width="30" height="30"/>
+                                                    <state key="normal" title="X"/>
+                                                    <connections>
+                                                        <action selector="removeFeed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="z8x-0A-DKY"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="b6A-a7-ugA" firstAttribute="centerX" secondItem="PSD-Sm-U4s" secondAttribute="centerX" id="6cg-Ae-LN3"/>
+                                                <constraint firstItem="8GW-K1-fD0" firstAttribute="centerY" secondItem="PSD-Sm-U4s" secondAttribute="centerY" id="jXT-Td-KNX"/>
                                                 <constraint firstItem="b6A-a7-ugA" firstAttribute="centerY" secondItem="PSD-Sm-U4s" secondAttribute="centerY" id="tF8-2g-XSM"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <constraints>
+                                            <constraint firstItem="8GW-K1-fD0" firstAttribute="leading" secondItem="1tg-jv-MqJ" secondAttribute="leading" constant="5" id="vMM-j3-5jD"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="feedNameLabel" destination="b6A-a7-ugA" id="dig-iw-One"/>
                                             <segue destination="BaB-mO-Vfm" kind="show" id="m3Z-pC-7nR"/>
@@ -161,9 +172,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ip1-nC-Fpj">
-                                                    <rect key="frame" x="148" y="6" width="46" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ip1-nC-Fpj">
+                                                    <rect key="frame" x="0.0" y="6" width="328" height="30"/>
                                                     <state key="normal" title="Headline"/>
                                                     <connections>
                                                         <action selector="headlineTapped:" destination="sZd-ER-qX8" eventType="touchUpInside" id="Mb5-3o-AC9"/>
@@ -171,6 +181,11 @@
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <constraints>
+                                            <constraint firstItem="Ip1-nC-Fpj" firstAttribute="centerX" secondItem="sZd-ER-qX8" secondAttribute="centerX" id="3nd-cM-lvV"/>
+                                            <constraint firstItem="Ip1-nC-Fpj" firstAttribute="centerY" secondItem="sZd-ER-qX8" secondAttribute="centerY" id="9jq-lU-6iE"/>
+                                            <constraint firstItem="Ip1-nC-Fpj" firstAttribute="width" secondItem="sZd-ER-qX8" secondAttribute="width" id="iWJ-G8-0mo"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="articleHeadline" destination="Ip1-nC-Fpj" id="YMH-hD-Zk4"/>
                                         </connections>
@@ -189,7 +204,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AIO-CF-KFa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="73" y="526"/>
+            <point key="canvasLocation" x="72.799999999999997" y="525.78710644677665"/>
         </scene>
     </scenes>
 </document>

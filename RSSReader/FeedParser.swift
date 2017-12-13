@@ -29,7 +29,6 @@ class FeedParser: NSObject, XMLParserDelegate {
     var feedURL: String = ""
     //Holds the articles for each feed
     var cache = NSCache<AnyObject, AnyObject>()
-    var wholeStringParsed: Bool = false
     var wholeTitleParsed: Bool = false
     var wholeLinkParsed: Bool = false
     
@@ -112,7 +111,6 @@ class FeedParser: NSObject, XMLParserDelegate {
         if elementName == "item"{
             //TODO make sure we don't add duplicate articles
             articleArray.append(singleArticle)
-            //wholeStringParsed = true
         } else if elementName == "title"{
             wholeTitleParsed = true
         } else if elementName == "link"{

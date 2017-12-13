@@ -55,6 +55,15 @@ class FeedListViewController: UIViewController {
         destination.cache = source.cache
     }
     
+    @IBAction func removeFeed(_ sender: Any) {
+        if let feedListForRemoving = UserDefaults.standard.dictionary(forKey: "petersrssreader"){
+            var newFeedList = feedListForRemoving as! [String: String]
+            let cellToRemove = sender as! FeedCell
+            newFeedList.removeValue(forKey: cellToRemove.feedCacheID)
+            UserDefaults.standard.set(newFeedList, forKey: cellToRemove.feedCacheID)
+        }
+    }
+    
 }
 
 extension FeedListViewController: UITableViewDataSource {
