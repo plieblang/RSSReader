@@ -11,6 +11,7 @@ import UIKit
 class FeedListViewController: UIViewController {
     
     var feeds: NSDictionary = [:]
+    var feedNameMap: [String: String] = [:]
     var feedCacheMap: [String: NSCache<AnyObject, AnyObject>] = [:]
     
     @IBOutlet weak var feedListTableView: UITableView!
@@ -37,6 +38,7 @@ class FeedListViewController: UIViewController {
                     //Parse each stored feed and map the feed's url/id to its article cache
                     fp.parseRssURL(rssURL: url!) { (cache) in
                         feedCacheMap[urlAsString] = cache
+                        feedNameMap[urlAsString] = value as? String
                     }
                 }
             }
@@ -72,11 +74,13 @@ extension FeedListViewController: UITableViewDataSource {
         for (key, value) in feedCacheMap{
             feedsList.append(key)
         }
+        
         //Used as the key to get the url from feeds
-        let feedName = feedsList[indexPath.item]
-        let feedCache = feedCacheMap[feedName]
+        let feedURL = feedsList[indexPath.item]
+        let feedName = feedNameMap[feedURL]
+        let feedCache = feedCacheMap[feedURL]
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
-        cell.configure(name: feedName, feedCacheID: feedName, cache: feedCache!)
+        cell.configure(name: feedURL, feedCacheID: feedURL, cache: feedCache!)
         return cell
     }
     

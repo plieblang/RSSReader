@@ -14,8 +14,6 @@ import UIKit
 
 class FeedSubscriberViewController: UIViewController{
     
-    @IBOutlet weak var feedNameField: UITextField!
-    
     @IBOutlet weak var feedURLField: UITextField!
     
     @IBAction func subscribe(_ sender: Any) {
@@ -24,10 +22,10 @@ class FeedSubscriberViewController: UIViewController{
             //Only parse the feed if the user hasn't already subscribed
             if fDict[feedURLField.text!] == nil{
                 
-                let fp = FeedParser()
-                fp.parseRssURL(rssURL: URL(string: feedURLField.text!)!) { (cache) in
-                    return
-                }
+                var feedDict = fDict
+                feedDict[feedURLField.text!] = ""
+                UserDefaults.standard.set(feedDict, forKey: "petersrssreader")
+                
             }
         }
     }
