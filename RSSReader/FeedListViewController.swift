@@ -11,7 +11,7 @@ import UIKit
 class FeedListViewController: UIViewController {
     
     var feeds: NSDictionary = [:]
-    var feedToCache: [String: NSCache<AnyObject, AnyObject>] = [:]
+    var feedCacheMap: [String: NSCache<AnyObject, AnyObject>] = [:]
     
     @IBOutlet weak var feedListTableView: UITableView!
     
@@ -24,7 +24,6 @@ class FeedListViewController: UIViewController {
         if UserDefaults.standard.object(forKey: "petersrssreader") == nil{
             //Needed so that there's something in UserDefaults
             //TODO remove
-            let preload: NSDictionary = ["https://www.nationalreview.com/rss.xml": "National Review"]
             UserDefaults.standard.set(NSDictionary(), forKey: "petersrssreader")
         }
         
@@ -32,11 +31,13 @@ class FeedListViewController: UIViewController {
             feeds = f as NSDictionary
             let fp = FeedParser()
             for (key, value) in feeds{
-                let url = URL(string: key as! String)
+                let urlAsString: String = key as! String
+                let url = URL(string: urlAsString)
                 if UIApplication.shared.canOpenURL(url!){
+                    //Parse each stored feed and map the feed's url/id to its article cache
                     fp.parseRssURL(rssURL: url!) { (cache) in
-                        if feedToCache[String(describing: url)] == nil{
-                            feedToCache[String(describing: url)] = cache
+                        if feedCacheMap[urlAsString] == nil{
+                            feedCacheMap[urlAsString] = cache
                         }
                     }
                 }
@@ -77,15 +78,15 @@ extension FeedListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //flatten dictionary into list, get indexPath.item from list and get that from dictionary
+        //flatten dictionary into list to get indexPath.item from it
         var feedsList: [String] = []
-        for (key, value) in feeds{
+        for (key, value) in feedCacheMap{
             feedsList.append(key as! String)
         }
         
         //Used as the key to get the url from feeds
         let feedName = feedsList[indexPath.item]
-        let feedCache = feedToCache[feedName]
+        let feedCache = feedCacheMap[feedName]
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
         cell.configure(name: feedName, feedCacheID: feedName, cache: feedCache!)
         return cell

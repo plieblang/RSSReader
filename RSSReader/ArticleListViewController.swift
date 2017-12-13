@@ -37,7 +37,7 @@ class ArticleListViewController: UIViewController{
             self.articleListTableView.reloadData()
         }
     }
-
+    
     func setArticles(){
         articles = cache.object(forKey: feedCacheID as AnyObject) as! [Article]
     }
@@ -57,7 +57,9 @@ extension ArticleListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let article = articles[indexPath.item]
         let cell = tableView.dequeueReusableCell(withIdentifier: "articleCell", for: indexPath) as! ArticleCell
-        cell.configure(url: URL(string: article.url)!, title: article.title)
+        if article.url != ""{
+            cell.configure(url: URL(string: article.url)!, title: article.title)
+        }
         return cell
     }
     
