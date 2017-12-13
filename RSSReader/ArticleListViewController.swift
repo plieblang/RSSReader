@@ -57,8 +57,12 @@ extension ArticleListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let article = articles[indexPath.item]
         let cell = tableView.dequeueReusableCell(withIdentifier: "articleCell", for: indexPath) as! ArticleCell
+        //TODO THIS IS NOT A GOOD FIX
+        //should have a real check for whether the url is valid or not
         if article.url != ""{
             cell.configure(url: URL(string: article.url)!, title: article.title)
+        } else {
+            cell.configure(url: URL(string: "https://duckduckgo.com")!, title: "DuckDuckGo")
         }
         return cell
     }

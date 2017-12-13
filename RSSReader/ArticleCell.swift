@@ -29,8 +29,13 @@ class ArticleCell: UITableViewCell{
     }
     
     @IBAction func headlineTapped(_ sender: Any) {
-        let safariVC = SFSafariViewController(url: url)
-        parentViewController.navigationController?.pushViewController(safariVC, animated: true)
+        //TODO use the safari view controller so that it opens inside the app
+        if UIApplication.shared.canOpenURL(url){
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+        //let safariVC = SFSafariViewController(url: url)
+        //parentViewController.navigationController?.pushViewController(safariVC, animated: true)
+        //safariVC.present(safariVC, animated: true, completion: nil)
     }
     
 }

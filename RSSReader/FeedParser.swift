@@ -22,15 +22,17 @@ class FeedParser: NSObject, XMLParserDelegate {
     var singleArticle: Article = Article()
     //Holds all the articles in this feed
     var articleArray: [Article] = []
+    //Need the second array so that all articles don't get put into the same array
+    var articleArrayForCache: [Article] = []
     //flag to check whether we’re parsing an actual feed item or its header (which also has a title, description, and so on)
     var headerFlag = true
     var feedTitle: String = ""
     //Used as cache key
     var feedURL: String = ""
-    //Holds the articles for each feed
-    var cache = NSCache<AnyObject, AnyObject>()
     var wholeTitleParsed: Bool = false
     var wholeLinkParsed: Bool = false
+    
+    let articleLimit = 50
     
     func parseRssURL(rssURL: URL, completion: (NSCache<AnyObject, AnyObject>) -> ()) {
         feedURL = "\(rssURL)"
@@ -38,11 +40,13 @@ class FeedParser: NSObject, XMLParserDelegate {
         parser?.delegate = self
         parser?.parse()
         
-        //How many articles each feed will keep at a time
-        let cacheLimit = 50
+        //Holds the articles for each feed
+        var cache = NSCache<AnyObject, AnyObject>()
+        //How many feeds the cache can hold
+        let cacheLimit = 256
         cache.countLimit = cacheLimit
-        //cache.name = feedURL
-        cache.setObject(articleArray as AnyObject, forKey: feedURL as AnyObject)
+        cache.setObject(articleArrayForCache as AnyObject, forKey: feedURL as AnyObject)
+        articleArrayForCache.removeAll()
         completion(cache)
     }
     
@@ -66,7 +70,6 @@ class FeedParser: NSObject, XMLParserDelegate {
         //Tracks whether it's safe to rename the feed, I think
         var flag: Bool = false
         
-        //Set the cache name to be the feed's url
         if headerFlag == true{
             if currentTag == "title"{
                 feedTitle = string
@@ -109,12 +112,22 @@ class FeedParser: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         
         if elementName == "item"{
-            //TODO make sure we don't add duplicate articles
-            articleArray.append(singleArticle)
+            //limit the number of articles
+            if articleArray.count > articleLimit{
+                for i in 0...articleLimit - 1{
+                    articleArray[i] = articleArray[i+1]
+                }
+                articleArray[articleLimit - 1] = singleArticle
+            } else{
+                self.articleArray.append(self.singleArticle)
+            }
         } else if elementName == "title"{
             wholeTitleParsed = true
         } else if elementName == "link"{
             wholeLinkParsed = true
+        } else if elementName == "channel"{
+            articleArrayForCache = articleArray
+            articleArray.removeAll()
         }
         
     }
