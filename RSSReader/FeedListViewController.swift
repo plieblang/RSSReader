@@ -36,9 +36,7 @@ class FeedListViewController: UIViewController {
                 if UIApplication.shared.canOpenURL(url!){
                     //Parse each stored feed and map the feed's url/id to its article cache
                     fp.parseRssURL(rssURL: url!) { (cache) in
-                        if feedCacheMap[urlAsString] == nil{
-                            feedCacheMap[urlAsString] = cache
-                        }
+                        feedCacheMap[urlAsString] = cache
                     }
                 }
             }
@@ -72,9 +70,8 @@ extension FeedListViewController: UITableViewDataSource {
         //flatten dictionary into list to get indexPath.item from it
         var feedsList: [String] = []
         for (key, value) in feedCacheMap{
-            feedsList.append(key as! String)
+            feedsList.append(key)
         }
-        
         //Used as the key to get the url from feeds
         let feedName = feedsList[indexPath.item]
         let feedCache = feedCacheMap[feedName]
