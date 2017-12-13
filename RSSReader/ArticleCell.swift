@@ -17,13 +17,15 @@ import SafariServices
 class ArticleCell: UITableViewCell{
     
     var url: URL!
+    var title: String = ""
     var parentViewController: UIViewController!
     
     @IBOutlet weak var articleHeadline: UIButton!
     
-    func configure(url: URL, parentViewController: UIViewController) {
+    func configure(url: URL, title: String) {
         self.url = url
-        self.parentViewController = parentViewController
+        self.title = title
+        self.articleHeadline.setTitle(title, for: UIControlState.normal)
     }
     
     @IBAction func headlineTapped(_ sender: Any) {

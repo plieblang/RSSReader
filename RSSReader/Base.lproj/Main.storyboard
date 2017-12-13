@@ -28,7 +28,7 @@
             </objects>
             <point key="canvasLocation" x="-1476" y="54"/>
         </scene>
-        <!--Subscribe-->
+        <!--Add feed-->
         <scene sceneID="ffE-gX-Sbw">
             <objects>
                 <viewController id="inN-lr-nwA" customClass="FeedSubscriberViewController" customModule="RSSReader" customModuleProvider="target" sceneMemberID="viewController">
@@ -44,13 +44,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Feed URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XA9-ql-RZG">
-                                <rect key="frame" x="16" y="170" width="345" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Feed Name (Optional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bcb-wa-IE1">
-                                <rect key="frame" x="16" y="95" width="343" height="30"/>
+                                <rect key="frame" x="16" y="95" width="345" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -59,22 +53,21 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="qpP-xJ-kPF" firstAttribute="centerY" secondItem="1Kj-Q4-lem" secondAttribute="centerY" id="F7G-Lg-FlV"/>
-                            <constraint firstItem="XA9-ql-RZG" firstAttribute="top" secondItem="1Kj-Q4-lem" secondAttribute="top" constant="150" id="QtY-tO-GeP"/>
-                            <constraint firstItem="bcb-wa-IE1" firstAttribute="top" secondItem="1Kj-Q4-lem" secondAttribute="top" constant="75" id="eU2-bw-cSi"/>
+                            <constraint firstItem="XA9-ql-RZG" firstAttribute="top" secondItem="1Kj-Q4-lem" secondAttribute="top" constant="75" id="QtY-tO-GeP"/>
                             <constraint firstItem="qpP-xJ-kPF" firstAttribute="centerX" secondItem="1Kj-Q4-lem" secondAttribute="centerX" id="qXP-Wn-Gxo"/>
+                            <constraint firstItem="XA9-ql-RZG" firstAttribute="width" secondItem="1Kj-Q4-lem" secondAttribute="width" id="tIC-QM-9HM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1Kj-Q4-lem"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Subscribe" id="t2t-jy-svW"/>
+                    <tabBarItem key="tabBarItem" title="Add feed" badgeValue="Subscribe" id="t2t-jy-svW"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="feedNameField" destination="bcb-wa-IE1" id="wu0-BT-Ivu"/>
                         <outlet property="feedURLField" destination="XA9-ql-RZG" id="DD8-6Z-qAL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lE0-Go-V6o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1477.5999999999999" y="900.89955022488766"/>
+            <point key="canvasLocation" x="-1476" y="824"/>
         </scene>
         <!--Feeds-->
         <scene sceneID="tne-QT-ifu">
@@ -96,14 +89,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Feed" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b6A-a7-ugA">
-                                                    <rect key="frame" x="150" y="11" width="42" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Feed" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b6A-a7-ugA">
+                                                    <rect key="frame" x="0.0" y="11" width="343" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="b6A-a7-ugA" firstAttribute="centerX" secondItem="PSD-Sm-U4s" secondAttribute="centerX" id="6cg-Ae-LN3"/>
+                                                <constraint firstItem="b6A-a7-ugA" firstAttribute="centerY" secondItem="PSD-Sm-U4s" secondAttribute="centerY" id="tF8-2g-XSM"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="feedNameLabel" destination="b6A-a7-ugA" id="dig-iw-One"/>
@@ -119,16 +115,19 @@
                     <tabBarItem key="tabBarItem" title="Feeds" id="DPR-Lw-MSB"/>
                     <navigationItem key="navigationItem" id="jGH-UF-eSP"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="feedListTableView" destination="0fx-qU-AA2" id="pPM-73-V9i"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="73" y="-241"/>
+            <point key="canvasLocation" x="72.799999999999997" y="-241.52923538230885"/>
         </scene>
         <!--Feeds-->
         <scene sceneID="7Ix-Bk-BBg">
             <objects>
                 <navigationController id="1TU-9C-sJJ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Feeds" id="4rC-SY-2KY" userLabel="Feeds"/>
+                    <tabBarItem key="tabBarItem" title="Feeds" badgeValue="News" id="4rC-SY-2KY" userLabel="Feeds"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="OoA-8k-RCa">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -184,10 +183,13 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Articles" id="d0v-oL-NeY"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="articleListTableView" destination="L7I-Kg-vb7" id="vf4-Nl-ySz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AIO-CF-KFa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="73" y="507"/>
+            <point key="canvasLocation" x="73" y="526"/>
         </scene>
     </scenes>
 </document>

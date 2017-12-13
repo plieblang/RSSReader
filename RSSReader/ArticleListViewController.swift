@@ -16,11 +16,31 @@ import SafariServices
 
 class ArticleListViewController: UIViewController{
     
-    var feedName: String = ""
-    var articles: [String] = []
+    //url as string
+    var feedCacheID: String = ""
+    var articles: [Article] = []
+    var cache: NSCache<AnyObject, AnyObject> = NSCache()
     
     @IBOutlet weak var articleHeadline: UILabel!
+    
+    @IBOutlet weak var articleListTableView: UITableView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        articleListTableView.dataSource = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        setArticles()
+        
+        DispatchQueue.main.async {
+            self.articleListTableView.reloadData()
+        }
+    }
 
+    func setArticles(){
+        articles = cache.object(forKey: feedCacheID as AnyObject) as! [Article]
+    }
     
 }
 
@@ -37,7 +57,7 @@ extension ArticleListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let article = articles[indexPath.item]
         let cell = tableView.dequeueReusableCell(withIdentifier: "articleCell", for: indexPath) as! ArticleCell
-        cell.articleHeadline.setTitle(article, for: UIControlState.normal)
+        cell.configure(url: URL(string: article.url)!, title: article.title)
         return cell
     }
     

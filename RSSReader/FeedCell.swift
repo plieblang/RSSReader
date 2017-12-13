@@ -7,8 +7,7 @@
 //
 
 /*
- This cell is for each individual feed
- if handling taps on an individual feed inside the table of all available feeds
+ This cell handles taps on an individual feed inside the table of all available feeds
  */
 
 import UIKit
@@ -18,12 +17,13 @@ class FeedCell: UITableViewCell{
     
     @IBOutlet weak var feedNameLabel: UILabel!
     
-    var name: String = ""
-    var parentViewController: UIViewController!
+    var feedCacheID: String = ""
+    var cache: NSCache<AnyObject, AnyObject> = NSCache()
     
-    func configure(name: String, parentViewController: UIViewController) {
-        self.name = name
-        self.parentViewController = parentViewController
+    func configure(name: String, feedCacheID: String, cache: NSCache<AnyObject, AnyObject>) {
+        feedNameLabel.text = name
+        self.feedCacheID = feedCacheID
+        self.cache = cache
     }
     
 }
