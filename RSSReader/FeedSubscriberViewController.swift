@@ -16,15 +16,33 @@ class FeedSubscriberViewController: UIViewController{
     
     @IBOutlet weak var feedURLField: UITextField!
     
+    override func viewDidAppear(_ animated: Bool) {
+        feedURLField.text = ""
+    }
+    
     @IBAction func subscribe(_ sender: Any) {
         
         if let fDict = UserDefaults.standard.dictionary(forKey: "petersrssreader"){
-            //Only parse the feed if the user hasn't already subscribed
-            if fDict[feedURLField.text!] == nil{
+            //Only add the url if there's something there
+            let entry: String = feedURLField.text!
+            if fDict[entry] == nil{
                 
-                var feedDict = fDict
-                feedDict[feedURLField.text!] = ""
-                UserDefaults.standard.set(feedDict, forKey: "petersrssreader")
+                //This is inefficient because we're now parsing the whole xml twice
+                let parser = XMLParser(contentsOf: URL(string: entry)!)
+                if parser?.parse() == false{
+                    let alert = UIAlertController(title: "Error", message: "That URL is invalid", preferredStyle: .alert)
+                    let closeAlert = UIAlertAction(title: "OK", style: .cancel, handler: {(alert: UIAlertAction!) in return})
+                    alert.addAction(closeAlert)
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    
+                } else{
+                    
+                    var feedDict = fDict
+                    feedDict[entry] = ""
+                    UserDefaults.standard.set(feedDict, forKey: "petersrssreader")
+                }
                 
             }
         }

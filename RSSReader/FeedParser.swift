@@ -45,6 +45,8 @@ class FeedParser: NSObject, XMLParserDelegate {
         //How many feeds the cache can hold
         let cacheLimit = 256
         cache.countLimit = cacheLimit
+        //remove invalid article that shows up in the first subscribed feed
+        articleArrayForCache = articleArrayForCache.filter(){ $0.url != ""}
         cache.setObject(articleArrayForCache as AnyObject, forKey: feedURL as AnyObject)
         articleArrayForCache.removeAll()
         completion(cache)
@@ -67,23 +69,23 @@ class FeedParser: NSObject, XMLParserDelegate {
     //Parse content inside tags
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         
-        //Tracks whether it's safe to rename the feed, I think
-        var flag: Bool = false
-        
         if headerFlag == true{
             if currentTag == "title"{
-                feedTitle = string
-                flag = true
-            }
-            
-            //rename the feed in UserDefaults
-            if flag{
-                if let fDict = UserDefaults.standard.dictionary(forKey: "petersrssreader"){
-                    var feedDict = fDict as! [String: String]
-                    feedDict[feedURL] = feedTitle
-                    UserDefaults.standard.set(feedDict, forKey: "petersrssreader")
+                if wholeTitleParsed{
+
+                    if let fDict = UserDefaults.standard.dictionary(forKey: "petersrssreader"){
+                        var feedDict = fDict as! [String: String]
+                        feedDict[feedURL] = feedTitle
+                        UserDefaults.standard.set(feedDict, forKey: "petersrssreader")
+                    }
+                    
+                    wholeTitleParsed = false
+                    
+                } else{
+                    feedTitle += string.trimmingCharacters(in: .newlines).replacingOccurrences(of: "\t", with: "")
                 }
             }
+            
         } else {
             
             if currentTag == "title"{
@@ -114,7 +116,7 @@ class FeedParser: NSObject, XMLParserDelegate {
         if elementName == "item"{
             //limit the number of articles
             if articleArray.count > articleLimit{
-                for i in 0...articleLimit - 1{
+                for i in 0..<articleLimit - 1{
                     articleArray[i] = articleArray[i+1]
                 }
                 articleArray[articleLimit - 1] = singleArticle
