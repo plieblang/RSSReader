@@ -35,20 +35,28 @@ class FeedParser: NSObject, XMLParserDelegate {
     let articleLimit = 50
     
     func parseRssURL(rssURL: URL, completion: (NSCache<AnyObject, AnyObject>) -> ()) {
-        feedURL = "\(rssURL)"
-        let parser = XMLParser(contentsOf: rssURL)
-        parser?.delegate = self
-        parser?.parse()
-        
         //Holds the articles for each feed
         var cache = NSCache<AnyObject, AnyObject>()
         //How many feeds the cache can hold
         let cacheLimit = 256
         cache.countLimit = cacheLimit
-        //remove invalid article that shows up in the first subscribed feed
-        articleArrayForCache = articleArrayForCache.filter(){ $0.url != ""}
-        cache.setObject(articleArrayForCache as AnyObject, forKey: feedURL as AnyObject)
-        articleArrayForCache.removeAll()
+        
+        let request = URLRequest(url: rssURL)
+        
+        let getFeedTask = URLSession(configuration: .ephemeral).dataTask(with: request){ (data, response, error) in
+            self.feedURL = "\(rssURL)"
+            //let parser = XMLParser(contentsOf: rssURL)
+            let parser = XMLParser(data: data!)
+            parser.delegate = self
+            parser.parse()
+            
+            //remove invalid article that shows up in the first subscribed feed
+            self.articleArrayForCache = self.articleArrayForCache.filter(){ $0.url != ""}
+            cache.setObject(self.articleArrayForCache as AnyObject, forKey: self.feedURL as AnyObject)
+            self.articleArrayForCache.removeAll()
+            
+        }
+        getFeedTask.resume()
         completion(cache)
     }
     
@@ -72,7 +80,7 @@ class FeedParser: NSObject, XMLParserDelegate {
         if headerFlag == true{
             if currentTag == "title"{
                 if wholeTitleParsed{
-
+                    
                     if let fDict = UserDefaults.standard.dictionary(forKey: "petersrssreader"){
                         var feedDict = fDict as! [String: String]
                         feedDict[feedURL] = feedTitle
