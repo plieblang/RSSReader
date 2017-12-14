@@ -33,12 +33,11 @@ class FeedSubscriberViewController: UIViewController{
                 
                 let getFeedTask = URLSession(configuration: .ephemeral).dataTask(with: request){ (data, response, error) in
                     if let responseStatus = response as? HTTPURLResponse{
-                        var status = responseStatus.statusCode
+                        let status = responseStatus.statusCode
                         //received a valid response so continue
                         if status == 200{
                             
                             //This is inefficient because we're now parsing the whole xml twice
-                            //let parser = XMLParser(contentsOf: URL(string: entry)!)
                             let parser = XMLParser(data: data!)
                             if parser.parse() == false{
                                 let alert = UIAlertController(title: "Error", message: "That URL is invalid", preferredStyle: .alert)

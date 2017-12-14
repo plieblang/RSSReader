@@ -78,7 +78,7 @@ extension FeedListViewController: UITableViewDataSource {
         let feedCache = feedCacheMap[feedURL]
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
         //name should be feedName but it doesn't work properly
-        cell.configure(name: feedURL as! String, feedCacheID: feedURL, cache: feedCache!)
+        cell.configure(name: feedURL, feedCacheID: feedURL, cache: feedCache!)
         return cell
     }
     
