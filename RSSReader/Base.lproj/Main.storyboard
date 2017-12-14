@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -51,6 +52,7 @@
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="qpP-xJ-kPF" firstAttribute="centerY" secondItem="1Kj-Q4-lem" secondAttribute="centerY" id="F7G-Lg-FlV"/>
                             <constraint firstItem="XA9-ql-RZG" firstAttribute="top" secondItem="1Kj-Q4-lem" secondAttribute="top" constant="75" id="QtY-tO-GeP"/>
@@ -58,14 +60,23 @@
                             <constraint firstItem="XA9-ql-RZG" firstAttribute="width" secondItem="1Kj-Q4-lem" secondAttribute="width" id="tIC-QM-9HM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1Kj-Q4-lem"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="H17-v4-blF" appends="YES" id="533-rj-FBs"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Add feed" badgeValue="Subscribe" id="t2t-jy-svW"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="feedSubscriberViewController" destination="qUP-xQ-fg8" id="BuN-Xd-eSm"/>
                         <outlet property="feedURLField" destination="XA9-ql-RZG" id="DD8-6Z-qAL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lE0-Go-V6o" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="H17-v4-blF">
+                    <connections>
+                        <action selector="screenTapped:" destination="inN-lr-nwA" id="LYL-C0-F0F"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-1476" y="824"/>
         </scene>
@@ -96,7 +107,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8GW-K1-fD0">
-                                                    <rect key="frame" x="5" y="6" width="30" height="30"/>
+                                                    <rect key="frame" x="5" y="3" width="30" height="36"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <state key="normal" title="X"/>
                                                     <connections>
                                                         <action selector="removeFeed:" destination="1tg-jv-MqJ" eventType="touchUpInside" id="Hvl-QU-IQq"/>

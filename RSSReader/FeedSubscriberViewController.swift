@@ -16,8 +16,10 @@ class FeedSubscriberViewController: UIViewController{
     
     @IBOutlet weak var feedURLField: UITextField!
     
-    override func viewDidAppear(_ animated: Bool) {
-        feedURLField.text = ""
+    @IBOutlet var feedSubscriberViewController: UIView!
+
+    @IBAction func screenTapped(_ sender: UITapGestureRecognizer) {
+        feedURLField.resignFirstResponder()
     }
     
     @IBAction func subscribe(_ sender: Any) {
@@ -42,10 +44,15 @@ class FeedSubscriberViewController: UIViewController{
                     var feedDict = fDict
                     feedDict[entry] = ""
                     UserDefaults.standard.set(feedDict, forKey: "petersrssreader")
+                    feedURLField.resignFirstResponder()
                 }
                 
             }
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        feedURLField.text = ""
     }
     
 }
