@@ -107,8 +107,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8GW-K1-fD0">
-                                                    <rect key="frame" x="5" y="3" width="30" height="36"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <rect key="frame" x="5" y="0.0" width="30" height="42"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                     <state key="normal" title="X"/>
                                                     <connections>
                                                         <action selector="removeFeed:" destination="1tg-jv-MqJ" eventType="touchUpInside" id="Hvl-QU-IQq"/>

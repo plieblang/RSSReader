@@ -45,6 +45,12 @@ class FeedSubscriberViewController: UIViewController{
                     feedDict[entry] = ""
                     UserDefaults.standard.set(feedDict, forKey: "petersrssreader")
                     feedURLField.resignFirstResponder()
+                    let alert = UIAlertController(title: "Success", message: "You have subscribed to \(feedURLField.text!)", preferredStyle: .alert)
+                    let closeAlert = UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in return})
+                    alert.addAction(closeAlert)
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
                 
             }
