@@ -2,7 +2,6 @@
 
 # Known ~~bugs~~ features
 
-* Crashes when the user deletes a feed and then visits the subscribe view before another feed
 * Horizontal view is messed up, including the Subscribe button being hidden by the keyboard and the table cells not stretching all the way across
 * Setting a feed's title works inconsistently so for now it's set to its URL
 
