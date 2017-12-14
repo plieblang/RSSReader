@@ -27,7 +27,7 @@ class FeedSubscriberViewController: UIViewController{
         if let fDict = UserDefaults.standard.dictionary(forKey: "petersrssreader"){
             //Only add the url if there's something there
             let entry: String = feedURLField.text!
-            if fDict[entry] == nil{
+            if fDict[entry] == nil || feedURLField.text! != ""{
                 
                 //This is inefficient because we're now parsing the whole xml twice
                 let parser = XMLParser(contentsOf: URL(string: entry)!)

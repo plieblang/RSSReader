@@ -82,4 +82,26 @@ extension FeedListViewController: UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            if let feedListForRemoving = UserDefaults.standard.dictionary(forKey: "petersrssreader"){
+                if feedListForRemoving.count <= 1{
+                    UserDefaults.standard.set(NSDictionary(), forKey: "petersrssreader")
+                }
+                
+                var feedsList: [String] = []
+                for (key, value) in feedCacheMap{
+                    feedsList.append(key)
+                }
+                var newFeedList = feedListForRemoving as! [String: String]
+                newFeedList.removeValue(forKey: feedsList[indexPath.item])
+                UserDefaults.standard.set(newFeedList, forKey: "petersrssreader")
+            }
+        }
+    }
+    
 }

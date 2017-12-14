@@ -26,15 +26,4 @@ class FeedCell: UITableViewCell{
         self.cache = cache
     }
     
-    @IBAction func removeFeed(_ sender: Any) {
-        if let feedListForRemoving = UserDefaults.standard.dictionary(forKey: "petersrssreader"){
-            if feedListForRemoving.count <= 1{
-                UserDefaults.standard.set(NSDictionary(), forKey: "petersrssreader")
-            }
-            var newFeedList = feedListForRemoving as! [String: String]
-            newFeedList.removeValue(forKey: feedCacheID)
-            UserDefaults.standard.set(newFeedList, forKey: "petersrssreader")
-        }
-    }
-    
 }

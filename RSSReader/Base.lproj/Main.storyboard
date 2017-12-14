@@ -106,24 +106,12 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8GW-K1-fD0">
-                                                    <rect key="frame" x="5" y="0.0" width="30" height="42"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                                    <state key="normal" title="X"/>
-                                                    <connections>
-                                                        <action selector="removeFeed:" destination="1tg-jv-MqJ" eventType="touchUpInside" id="Hvl-QU-IQq"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="b6A-a7-ugA" firstAttribute="centerX" secondItem="PSD-Sm-U4s" secondAttribute="centerX" id="6cg-Ae-LN3"/>
-                                                <constraint firstItem="8GW-K1-fD0" firstAttribute="centerY" secondItem="PSD-Sm-U4s" secondAttribute="centerY" id="jXT-Td-KNX"/>
                                                 <constraint firstItem="b6A-a7-ugA" firstAttribute="centerY" secondItem="PSD-Sm-U4s" secondAttribute="centerY" id="tF8-2g-XSM"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <constraints>
-                                            <constraint firstItem="8GW-K1-fD0" firstAttribute="leading" secondItem="1tg-jv-MqJ" secondAttribute="leading" constant="5" id="vMM-j3-5jD"/>
-                                        </constraints>
                                         <connections>
                                             <outlet property="feedNameLabel" destination="b6A-a7-ugA" id="dig-iw-One"/>
                                             <segue destination="BaB-mO-Vfm" kind="show" id="m3Z-pC-7nR"/>
