@@ -78,7 +78,10 @@ extension FeedListViewController: UITableViewDataSource {
         let feedCache = feedCacheMap[feedURL]
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedCell
         //name should be feedName but it doesn't work properly
-        cell.configure(name: feedURL as! String, feedCacheID: feedURL, cache: feedCache!)
+        cell.configure(name: feedName as! String, feedCacheID: feedURL, cache: feedCache!)
+        DispatchQueue.main.async {
+            self.feedListTableView.reloadData()
+        }
         return cell
     }
     
@@ -100,6 +103,10 @@ extension FeedListViewController: UITableViewDataSource {
                 var newFeedList = feedListForRemoving as! [String: String]
                 newFeedList.removeValue(forKey: feedsList[indexPath.item])
                 UserDefaults.standard.set(newFeedList, forKey: "petersrssreader")
+            }
+            
+            DispatchQueue.main.async {
+                self.feedListTableView.reloadData()
             }
         }
     }

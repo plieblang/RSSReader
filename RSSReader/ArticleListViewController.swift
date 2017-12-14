@@ -57,9 +57,7 @@ extension ArticleListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let article = articles[indexPath.item]
         let cell = tableView.dequeueReusableCell(withIdentifier: "articleCell", for: indexPath) as! ArticleCell
-        //TODO THIS IS NOT A GOOD FIX
-        //should have a real check for whether the url is valid or not
-        //Needed because for some reason, the first feed you subscribe to has a blank slot at the top
+        //This shouldn't be necessary anymore but it can't hurt to make sure
         if article.url != ""{
             cell.configure(url: URL(string: article.url)!, title: article.title)
         } else {

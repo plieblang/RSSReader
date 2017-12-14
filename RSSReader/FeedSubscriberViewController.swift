@@ -38,36 +38,42 @@ class FeedSubscriberViewController: UIViewController{
                         if status == 200{
                             
                             //This is inefficient because we're now parsing the whole xml twice
-                            //let parser = XMLParser(contentsOf: URL(string: entry)!)
                             let parser = XMLParser(data: data!)
-                            if parser.parse() == false{
-                                let alert = UIAlertController(title: "Error", message: "That URL is invalid", preferredStyle: .alert)
-                                let closeAlert = UIAlertAction(title: "OK", style: .cancel, handler: {(alert: UIAlertAction!) in return})
-                                alert.addAction(closeAlert)
-                                DispatchQueue.main.async {
-                                    self.present(alert, animated: true, completion: nil)
-                                }
-                                
-                            } else{
-                                
-                                var feedDict = fDict
-                                feedDict[entry] = ""
-                                UserDefaults.standard.set(feedDict, forKey: "petersrssreader")
-                                DispatchQueue.main.async {
-                                    self.feedURLField.resignFirstResponder()
-                                    let alert = UIAlertController(title: "Success", message: "You have subscribed to \(self.feedURLField.text!)", preferredStyle: .alert)
-                                    let closeAlert = UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in return})
-                                    self.present(alert, animated: true, completion: nil)
+                            let fp = FeedParser()
+                            fp.checkRssURL(rssURL: URL(string: entry)!){ (result) in
+                                if !result{
+                                    let alert = UIAlertController(title: "Error", message: "That URL is invalid", preferredStyle: .alert)
+                                    let closeAlert = UIAlertAction(title: "OK", style: .cancel, handler: {(alert: UIAlertAction!) in return})
                                     alert.addAction(closeAlert)
+                                    DispatchQueue.main.async {
+                                        self.present(alert, animated: true, completion: nil)
+                                    }
+                                    
+                                } else{
+                                    
+                                    var feedDict = fDict
+                                    feedDict[entry] = ""
+                                    UserDefaults.standard.set(feedDict, forKey: "petersrssreader")
+                                    DispatchQueue.main.async {
+                                        self.feedURLField.resignFirstResponder()
+                                        let alert = UIAlertController(title: "Success", message: "You have subscribed to \(self.feedURLField.text!)", preferredStyle: .alert)
+                                        let closeAlert = UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in return})
+                                        self.present(alert, animated: true, completion: nil)
+                                        alert.addAction(closeAlert)
+                                    }
                                 }
                             }
                             
                         } else{
-                            let alert = UIAlertController(title: "Error", message: "Sorry, could not find that URL", preferredStyle: .alert)
-                            let closeAlert = UIAlertAction(title: "OK", style: .cancel, handler: {(alert: UIAlertAction!) in return})
-                            alert.addAction(closeAlert)
+                            //never seems to get called
+                            DispatchQueue.main.async {
+                                let alert = UIAlertController(title: "Error", message: "Sorry, could not find that URL", preferredStyle: .alert)
+                                let closeAlert = UIAlertAction(title: "OK", style: .cancel, handler: {(alert: UIAlertAction!) in return})
+                                alert.addAction(closeAlert)
+                            }
+                            
                         }
-                    
+                        
                     }
                 }
                 getFeedTask.resume()

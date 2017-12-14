@@ -45,7 +45,7 @@ class FeedParser: NSObject, XMLParserDelegate {
         
         let getFeedTask = URLSession(configuration: .ephemeral).dataTask(with: request){ (data, response, error) in
             self.feedURL = "\(rssURL)"
-            //let parser = XMLParser(contentsOf: rssURL)
+
             let parser = XMLParser(data: data!)
             parser.delegate = self
             parser.parse()
@@ -58,6 +58,23 @@ class FeedParser: NSObject, XMLParserDelegate {
         }
         getFeedTask.resume()
         completion(cache)
+    }
+    
+    func checkRssURL(rssURL: URL, completion: @escaping (Bool) -> ()) {
+        
+        let request = URLRequest(url: rssURL)
+        //var rv: Bool = true
+        
+        let getFeedTask = URLSession(configuration: .ephemeral).dataTask(with: request){ (data, response, error) in
+            
+            let parser = XMLParser(data: data!)
+            parser.delegate = self
+            completion(parser.parse())
+            
+        }
+        getFeedTask.resume()
+        //completion(rv)
+        
     }
     
     //Check the opening tag to see whether we're inside the header
@@ -80,7 +97,6 @@ class FeedParser: NSObject, XMLParserDelegate {
         if headerFlag == true{
             if currentTag == "title"{
                 if wholeTitleParsed{
-                    
                     if let fDict = UserDefaults.standard.dictionary(forKey: "petersrssreader"){
                         var feedDict = fDict as! [String: String]
                         feedDict[feedURL] = feedTitle
@@ -88,7 +104,6 @@ class FeedParser: NSObject, XMLParserDelegate {
                     }
                     
                     wholeTitleParsed = false
-                    
                 } else{
                     feedTitle += string.trimmingCharacters(in: .newlines).replacingOccurrences(of: "\t", with: "")
                 }
